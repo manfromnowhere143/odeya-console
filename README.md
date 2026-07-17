@@ -134,7 +134,7 @@ Gate A remains blocked, and the engine is not presented as a completed runtime.
 
 | Repository | First commit | Pre-window commits | In-window commits | Rounded in-window share |
 |---|---|---:|---:|---:|
-| [telos](https://github.com/manfromnowhere143/telos), reward-hack research | 2026-07-08 | 197 | 164 | 45% |
+| [telos](https://github.com/manfromnowhere143/telos), reward-hack research | 2026-07-08 | 197 | 167 | 46% |
 | [sentinel](https://github.com/manfromnowhere143/sentinel), AV-safety monitor research | 2026-06-30 | 598 | 259 | 30% |
 
 In-window Telos work includes admission gates, natural-rate cohorts, detector
@@ -155,7 +155,7 @@ supplied the earlier NeuroNCAP result and its committed proof.
   `daniel-wahnich` 4.
 - Telos records `gpt-5.6-terra` in the research roles described above and
   `codex-local-*` or `codex-openai-*` agent IDs throughout its run scripts.
-- The four foundation repositories contained 589 in-window commits at the
+- The four foundation repositories contained 592 in-window commits at the
   retained measurement point.
 
 The public README intentionally omits account email addresses and any claim
