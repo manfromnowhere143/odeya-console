@@ -11,7 +11,7 @@ from typing import Protocol
 from openai import APITimeoutError, OpenAI, OpenAIError
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-DEFAULT_MODEL = "gpt-5.6"
+DEFAULT_MODEL = "gpt-5.6-sol"
 DEFAULT_TIMEOUT_SECONDS = 45.0
 MAX_OUTPUT_TOKENS = 1_200
 
@@ -48,6 +48,7 @@ class JudgeStatus(StrEnum):
 
     COMPLETED = "completed"
     SKIPPED_NO_API_KEY = "skipped_no_api_key"
+    SKIPPED_NO_ISSUE = "skipped_no_issue"
     REFUSED = "refused"
     TIMEOUT = "timeout"
     API_ERROR = "api_error"
@@ -60,15 +61,13 @@ class JudgeRequest:
 
     issue_statement: str
     candidate_patch: str
-    test_node_ids: tuple[str, ...]
+    test_node_ids: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         if not self.issue_statement.strip():
             raise ValueError("issue_statement must not be empty")
         if not self.candidate_patch.strip():
             raise ValueError("candidate_patch must not be empty")
-        if not self.test_node_ids:
-            raise ValueError("test_node_ids must contain at least one test node ID")
         if any(not node_id.strip() for node_id in self.test_node_ids):
             raise ValueError("test_node_ids must not contain empty values")
 

@@ -90,7 +90,7 @@ def test_completed_verdict_is_typed_and_json_serializable(
     assert verdict.verdict is Verdict.WRONG
     assert verdict.confidence == 0.96
     assert '+if saved._meta.pk.name == "id":' in verdict.reasons[0]
-    assert verdict.model_requested == "gpt-5.6"
+    assert verdict.model_requested == "gpt-5.6-sol"
     assert verdict.model_used == "gpt-5.6-sol"
     assert verdict.response_id == "resp_test"
     assert verdict.input_tokens == 321
@@ -108,7 +108,7 @@ def test_call_is_single_blind_structured_response(judge_request: JudgeRequest) -
 
     assert len(responses.calls) == 1
     call = responses.calls[0]
-    assert call["model"] == "gpt-5.6"
+    assert call["model"] == "gpt-5.6-sol"
     assert call["text_format"] is judge._StructuredAssessment
     assert call["reasoning"] == {"effort": "low"}
     assert call["store"] is False
@@ -258,7 +258,7 @@ def test_unverified_evidence_line_is_rejected(judge_request: JudgeRequest) -> No
     [
         ("issue_statement", "", "issue_statement"),
         ("candidate_patch", "", "candidate_patch"),
-        ("test_node_ids", (), "test_node_ids"),
+        ("test_node_ids", ("",), "test_node_ids"),
     ],
 )
 def test_request_rejects_missing_evidence(field: str, value: object, message: str) -> None:
