@@ -48,3 +48,12 @@ def test_repository_count_snapshot_is_internally_consistent() -> None:
         for repo in repos
     )
     assert counts["ecosystem_in_window_total"] == sum(counts[repo]["in_window"] for repo in repos)
+
+
+def test_keyless_fresh_clone_met_the_recorded_time_gate() -> None:
+    snapshot = json.loads((ROOT / "evidence" / "build-snapshot.json").read_text())
+    verification = snapshot["fresh_clone_keyless"]
+
+    assert verification["result"] == "pass"
+    assert verification["openai_api_key_present"] is False
+    assert verification["real_seconds"] < verification["threshold_seconds"]

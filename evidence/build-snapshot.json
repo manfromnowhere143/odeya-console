@@ -27,6 +27,14 @@
     "judge_flagged": 3,
     "model_used": "gpt-5.6-sol"
   },
+  "fresh_clone_keyless": {
+    "source_commit": "a9cf21e57ca6edcee6f12274f2f48eb496eee0af",
+    "scope": "local git clone, uv sync with Python 3.12, demo, and ledger verification",
+    "openai_api_key_present": false,
+    "real_seconds": 2.87,
+    "threshold_seconds": 15,
+    "result": "pass"
+  },
   "repository_counts": {
     "command": "git rev-list --all --count, with --since=2026-07-13T16:00:00Z for in-window counts",
     "odeya": {
