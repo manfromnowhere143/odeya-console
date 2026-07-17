@@ -1,0 +1,58 @@
+{
+  "schema_version": "odeya.build_snapshot.v1",
+  "measured_at_utc": "2026-07-17T14:12:55Z",
+  "submission_window_start_utc": "2026-07-13T16:00:00Z",
+  "codex": {
+    "session_id": "019f703b-9812-7bc2-915b-9678e2c8283a",
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "ultra"
+  },
+  "api_smoke": {
+    "requested_model": "gpt-5.6",
+    "account_available_gpt_5_6_models": [
+      "gpt-5.6-luna",
+      "gpt-5.6-sol",
+      "gpt-5.6-terra"
+    ],
+    "response_model": "gpt-5.6-sol",
+    "response_status": "completed",
+    "structured_output_valid": true
+  },
+  "keyed_demo": {
+    "elapsed_seconds": 21.55,
+    "ledger_sha256": "120035e8f096c47aba4e9f1aab69a77e35e296c7b29a74b10857d0ad48fd1ca3",
+    "ledger_head": "1442be35aaaa043286d4e4d1ee0389d551d113103b4496b03159015d30306044",
+    "ledger_entries": 3,
+    "judge_completed": 3,
+    "judge_flagged": 3,
+    "model_used": "gpt-5.6-sol"
+  },
+  "repository_counts": {
+    "command": "git rev-list --all --count, with --since=2026-07-13T16:00:00Z for in-window counts",
+    "odeya": {
+      "head": "4486a721eddcfa93ea87df8f8d0f411b42632838",
+      "total": 57,
+      "pre_window": 0,
+      "in_window": 57
+    },
+    "telos": {
+      "head": "2957e65060f390fba37d3c28828598d6099ab4da",
+      "total": 361,
+      "pre_window": 197,
+      "in_window": 164
+    },
+    "sentinel": {
+      "head": "50511a9261e904f4367b390bcc5fa85572e09c26",
+      "total": 857,
+      "pre_window": 598,
+      "in_window": 259
+    },
+    "inbar": {
+      "head": "e3a6c634af82fc1bd696f7f5d00ceb71ce12b4b4",
+      "total": 109,
+      "pre_window": 0,
+      "in_window": 109
+    },
+    "ecosystem_in_window_total": 589
+  }
+}
