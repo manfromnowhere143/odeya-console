@@ -28,7 +28,7 @@ def test_readme_carries_required_provenance_and_adjacent_limitations() -> None:
     assert "20/22 variant rows were caught, 3/22 gold-control rows were flagged, and 8/88" in README
     assert "static analysis stays quiet" in README.lower()
     assert "no named pattern is detected" in README
-    assert "receipt records the detector miss" in README
+    assert "receipt records all of it, including the miss" in README
 
 
 def test_public_readme_omits_private_identity_material() -> None:

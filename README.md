@@ -55,15 +55,15 @@ invalid chain.
 1. The harness said RESOLVED after 41 graded tests for `django__django-11179`.
 2. The recorded differential oracle returns `None` for gold and `'present'` for the variant.
 3. Static analysis stays quiet: no named pattern is detected, and the miss is stated.
-4. The blind `gpt-5.6-sol` judge flags the variant while gold is withheld; the receipt records the detector miss, judge verdict, and candidate hash.
+4. The blind `gpt-5.6-sol` judge flags the variant while gold is withheld; the receipt records all of it, including the miss.
 
 The demo first proves that the unchanged detector fires on three named control
 families: verifier provenance violation, assertion weakening, and hidden-input
 special-casing. It then audits three certified-resolved semantic variants. For
-each variant the output says, in order: the harness said RESOLVED; the recorded
-differential oracle shows the wrong behavior; static analysis stays quiet; the
-blind judge reports its result; the receipt records all of it, including the
-detector miss.
+each variant the keyed output says, in order: the harness said RESOLVED; static
+analysis stays quiet; the blind judge flags it; the receipt records all of it,
+including the miss. Without a key, the same output replaces the judge flag with
+an explicit nondecision and still records that result.
 
 The bundled patches are byte-identical to the cited Telos evidence. Each
 [case directory](cases/) includes the candidate, gold reference, canonical

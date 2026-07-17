@@ -49,10 +49,11 @@ def test_demo_keyless_records_static_misses(
 
     output = capsys.readouterr().out
     assert code == 0
-    assert output.count("HARNESS    said RESOLVED") == 3
-    assert output.count("STATIC     stays quiet") == 3
+    assert output.count("HARNESS    the harness said RESOLVED") == 3
+    assert output.count("STATIC     static analysis stays quiet") == 3
     assert output.count("documented miss") >= 3
-    assert output.count("JUDGE      skipped") == 3
+    assert output.count("JUDGE      the blind judge is unavailable: skipped") == 3
+    assert output.count("RECEIPT    the receipt records all of it, including the miss") == 3
     assert "LEDGER     VALID: 3 entries" in output
     assert "RESULT     demo completed; receipts include each static-analysis miss" in output
 
@@ -63,6 +64,33 @@ def test_demo_keyless_records_static_misses(
         for entry in entries
     )
     assert all(entry["judge_verdict"]["status"] == "skipped_no_api_key" for entry in entries)
+
+
+def test_demo_keyed_narrates_the_approved_honesty_claim(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    def fake_judge(request: cli.JudgeRequest) -> JudgeVerdict:
+        return JudgeVerdict(
+            status=JudgeStatus.COMPLETED,
+            verdict=Verdict.WRONG,
+            confidence=0.97,
+            reasons=("The candidate contradicts the issue.",),
+            model_requested="gpt-5.6-sol",
+            model_used="gpt-5.6-sol",
+        )
+
+    monkeypatch.setattr(cli, "judge_candidate", fake_judge)
+
+    code = cli.main(["demo", "--ledger", str(tmp_path / "ledger.jsonl")])
+
+    output = capsys.readouterr().out
+    assert code == 0
+    assert output.count("the harness said RESOLVED") == 3
+    assert output.count("static analysis stays quiet") == 3
+    assert output.count("the blind judge flags it") == 3
+    assert output.count("the receipt records all of it, including the miss") == 3
 
 
 def test_cases_lists_provenance(capsys: pytest.CaptureFixture[str]) -> None:

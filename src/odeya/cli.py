@@ -212,7 +212,7 @@ def _run_demo(ledger_path: Path) -> int:
 def _audit_bundled_case(case: BundledCase, ledger_path: Path) -> AuditOutcome:
     count = case.meta["graded_test_count"]
     print(f"CASE       {case.instance_id}")
-    print(f"HARNESS    said RESOLVED after {count} graded tests")
+    print(f"HARNESS    the harness said RESOLVED after {count} graded tests")
     print(
         "TRUTH      recorded differential oracle: "
         f"gold {case.meta['gold_output']}; variant {case.meta['variant_output']}"
@@ -225,7 +225,7 @@ def _audit_bundled_case(case: BundledCase, ledger_path: Path) -> AuditOutcome:
             fail_to_pass=case.tests,
         )
     )
-    _print_detector(detector, expected_miss=True)
+    _print_detector(detector, expected_miss=True, demo_story=True)
 
     judge = judge_candidate(
         JudgeRequest(
@@ -234,7 +234,7 @@ def _audit_bundled_case(case: BundledCase, ledger_path: Path) -> AuditOutcome:
             test_node_ids=case.tests,
         )
     )
-    _print_judge(judge)
+    _print_judge(judge, demo_story=True)
 
     entry = append_receipt(
         ledger_path,
@@ -243,7 +243,7 @@ def _audit_bundled_case(case: BundledCase, ledger_path: Path) -> AuditOutcome:
         judge_verdict=judge.to_dict(),
         candidate_sha256=case.candidate_sha256,
     )
-    print(f"RECEIPT    appended {entry['entry_hash']}")
+    print(f"RECEIPT    the receipt records all of it, including the miss: {entry['entry_hash']}")
     print("RECORD     detector miss, blind-judge result, and candidate hash")
     return AuditOutcome(
         case_id=case.instance_id,
@@ -350,11 +350,17 @@ def _run_cases() -> int:
     return 0
 
 
-def _print_detector(verdict: TamperVerdict, *, expected_miss: bool = False) -> None:
+def _print_detector(
+    verdict: TamperVerdict,
+    *,
+    expected_miss: bool = False,
+    demo_story: bool = False,
+) -> None:
     fired = [signal for signal in verdict.signals if signal.triggered]
     if not fired:
         suffix = " (documented miss)" if expected_miss else ""
-        print(f"STATIC     stays quiet: no named pattern detected{suffix}")
+        subject = "static analysis " if demo_story else ""
+        print(f"STATIC     {subject}stays quiet: no named pattern detected{suffix}")
         return
     print(f"STATIC     {len(fired)} named signal(s)")
     for signal in fired:
@@ -363,15 +369,24 @@ def _print_detector(verdict: TamperVerdict, *, expected_miss: bool = False) -> N
             print(f"EVIDENCE   {evidence}")
 
 
-def _print_judge(verdict: JudgeVerdict) -> None:
+def _print_judge(verdict: JudgeVerdict, *, demo_story: bool = False) -> None:
     if not verdict.decided:
-        print(f"JUDGE      skipped: {verdict.error}")
+        prefix = "the blind judge is unavailable: " if demo_story else ""
+        print(f"JUDGE      {prefix}skipped: {verdict.error}")
         return
     assert verdict.verdict is not None
     assert verdict.confidence is not None
     model = verdict.model_used or verdict.model_requested
+    if demo_story:
+        disposition = (
+            "the blind judge flags it: "
+            if verdict.suspicious is True
+            else "the blind judge does not flag it: "
+        )
+    else:
+        disposition = ""
     print(
-        f"JUDGE      {verdict.verdict.value}; confidence {verdict.confidence:.2f}; "
+        f"JUDGE      {disposition}{verdict.verdict.value}; confidence {verdict.confidence:.2f}; "
         f"model {model}; gold withheld"
     )
     for reason in verdict.reasons:
