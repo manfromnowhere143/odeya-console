@@ -1,5 +1,7 @@
 # Odeya
 
+[![CI](https://github.com/manfromnowhere143/odeya-console/actions/workflows/ci.yml/badge.svg)](https://github.com/manfromnowhere143/odeya-console/actions/workflows/ci.yml)
+
 ## 1. What it is
 
 Odeya is a Python CLI that audits an AI-generated patch after a test harness says the work is complete. It combines a frozen named-pattern detector, an optional blind GPT-5.6 semantic judge, and a hash-chained receipt ledger. It records what each layer saw, including a quiet detector, without treating silence or passing tests as proof of correctness.
