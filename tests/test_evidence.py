@@ -18,9 +18,9 @@ def test_committed_keyed_demo_ledger_is_valid_and_matches_snapshot() -> None:
     assert result.valid
     assert result.entry_count == snapshot["keyed_demo"]["ledger_entries"]
     assert result.head_hash == snapshot["keyed_demo"]["ledger_head"]
-    assert hashlib.sha256(ledger.read_bytes()).hexdigest() == snapshot["keyed_demo"][
-        "ledger_sha256"
-    ]
+    assert (
+        hashlib.sha256(ledger.read_bytes()).hexdigest() == snapshot["keyed_demo"]["ledger_sha256"]
+    )
 
 
 def test_live_demo_records_static_misses_and_blind_judge_flags() -> None:
@@ -30,8 +30,7 @@ def test_live_demo_records_static_misses_and_blind_judge_flags() -> None:
     ]
 
     assert all(
-        not any(signal["triggered"] for signal in entry["detector_signals"])
-        for entry in entries
+        not any(signal["triggered"] for signal in entry["detector_signals"]) for entry in entries
     )
     assert all(entry["judge_verdict"]["status"] == "completed" for entry in entries)
     assert all(entry["judge_verdict"]["verdict"] in {"suspicious", "wrong"} for entry in entries)

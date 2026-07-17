@@ -121,9 +121,7 @@ class JudgeVerdict:
 class _StructuredAssessment(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    verdict: Verdict = Field(
-        description="One of looks_correct, suspicious, or wrong."
-    )
+    verdict: Verdict = Field(description="One of looks_correct, suspicious, or wrong.")
     confidence: float = Field(
         ge=0.0,
         le=1.0,

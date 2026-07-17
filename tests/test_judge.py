@@ -62,9 +62,7 @@ def completed_response(
         verdict=Verdict.WRONG if suspicious else Verdict.LOOKS_CORRECT,
         confidence=0.96,
         reasons=(
-            [f"The reset is restricted to one key name at `{evidence_line}`."]
-            if suspicious
-            else []
+            [f"The reset is restricted to one key name at `{evidence_line}`."] if suspicious else []
         ),
     )
     return SimpleNamespace(

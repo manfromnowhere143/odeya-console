@@ -60,8 +60,7 @@ def test_demo_keyless_records_static_misses(
     entries = read_entries(ledger)
     assert len(entries) == 3
     assert all(
-        not any(signal["triggered"] for signal in entry["detector_signals"])
-        for entry in entries
+        not any(signal["triggered"] for signal in entry["detector_signals"]) for entry in entries
     )
     assert all(entry["judge_verdict"]["status"] == "skipped_no_api_key" for entry in entries)
 

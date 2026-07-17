@@ -57,9 +57,7 @@ def load_case(instance_id: str) -> BundledCase:
     if meta.get("instance_id") != instance_id:
         raise ValueError(f"case metadata identity mismatch: {instance_id}")
     tests = tuple(
-        line.strip()
-        for line in _read_text(directory, "tests.txt").splitlines()
-        if line.strip()
+        line.strip() for line in _read_text(directory, "tests.txt").splitlines() if line.strip()
     )
     return BundledCase(
         instance_id=instance_id,
@@ -75,4 +73,3 @@ def bundled_cases() -> tuple[BundledCase, ...]:
     """Return all bundled cases in stable display order."""
 
     return tuple(load_case(instance_id) for instance_id in CASE_IDS)
-
